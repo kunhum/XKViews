@@ -1,0 +1,6 @@
+framework module Pods_XKViews_Example {
+  umbrella header "Pods-XKViews_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

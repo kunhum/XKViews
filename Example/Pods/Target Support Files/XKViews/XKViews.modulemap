@@ -1,0 +1,6 @@
+framework module XKViews {
+  umbrella header "XKViews-umbrella.h"
+
+  export *
+  module * { export * }
+}
