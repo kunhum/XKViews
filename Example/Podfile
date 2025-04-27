@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'XKViews_Example' do
+  pod 'XKViews', :path => '../'
+
+  target 'XKViews_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
