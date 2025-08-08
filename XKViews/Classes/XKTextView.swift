@@ -16,23 +16,48 @@ extension XKTextViewDelegate {
 
 open class XKTextView: UITextView {
     
-    var linkKeys: [String] = []
-    
     public weak var xkDelegate: XKTextViewDelegate?
     
+    private var linkKeys: [String] = []
+    
+    private lazy var placeholderLabel = UILabel()
+    
+    private var attributedPlaceHolder: NSAttributedString?
+    
     convenience public init(isEditable: Bool = false,
-                     textContainerInset: UIEdgeInsets = .zero,
-                     lineFragmentPadding: Double = 0,
-                     backgroundColor: UIColor = .white,
+                            font: UIFont? = nil,
+                            textColor: UIColor? = nil,
+                            textContainerInset: UIEdgeInsets = .zero,
+                            lineFragmentPadding: Double = 0,
+                            backgroundColor: UIColor = .white,
+                            attributedText: NSAttributedString? = nil,
+                            attributedPlaceHolder: NSAttributedString? = nil,
                             delegate: (any XKTextViewDelegate)? = nil) {
         self.init()
         
         self.isEditable = isEditable
+        if let font { self.font = font }
+        if let textColor { self.textColor = textColor }
         self.textContainerInset = textContainerInset
         self.textContainer.lineFragmentPadding = lineFragmentPadding
         self.backgroundColor = backgroundColor
+        if let attributedText { self.attributedText = attributedText }
+        self.attributedPlaceHolder = attributedPlaceHolder
         self.delegate = self
         xkDelegate = delegate
+        setupUI()
+    }
+    
+    func setupUI() {
+        placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
+        placeholderLabel.numberOfLines = 0
+        placeholderLabel.attributedText = attributedPlaceHolder
+        addSubview(placeholderLabel)
+        NSLayoutConstraint.activate([
+            placeholderLabel.topAnchor.constraint(equalTo: topAnchor, constant: textContainerInset.top),
+            placeholderLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: textContainerInset.left),
+            placeholderLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
     
     /// 请确保已经设置了attributedText
@@ -63,4 +88,7 @@ extension XKTextView: UITextViewDelegate {
         return xkDelegate?.textView(didTapLink: key) ?? false
     }
     
+    public func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = textView.hasText
+    }
 }
