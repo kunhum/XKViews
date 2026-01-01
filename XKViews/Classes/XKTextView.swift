@@ -61,11 +61,15 @@ open class XKTextView: UITextView {
     }
     
     /// 请确保已经设置了attributedText
-    open func addLink(key: String, range: Range<String.Index>?) {
+    open func addLink(key: String, text: String) {
         guard let tmpAttText = self.attributedText else { return }
         let attributedText = NSMutableAttributedString(attributedString: tmpAttText)
-        guard let range = range else { return }
+        guard let range = attributedText.string.range(of: text) else { return }
         let tmpRange = NSRange(range, in: attributedText.string)
+        guard tmpRange.location != NSNotFound,
+              tmpRange.location >= 0,
+              tmpRange.length >= 0,
+              tmpRange.location + tmpRange.length <= attributedText.length else { return }
         attributedText.addAttribute(.link, value: key, range: tmpRange)
         self.attributedText = attributedText
         linkKeys.append(key)

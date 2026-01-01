@@ -33,7 +33,9 @@ open class XKBaseTableViewCell: UITableViewCell {
         bindData()
     }
     
-    open func setupUI() {}
+    open func setupUI() {
+        selectionStyle = .none
+    }
     
     open func bindData() {}
 }
