@@ -9,9 +9,11 @@ import UIKit
 
 public protocol XKTextViewDelegate: NSObjectProtocol {
     func textView(didTapLink key: String) -> Bool
+    func textView(didChange text: String)
 }
 extension XKTextViewDelegate {
     public func textView(didTapLink key: String) -> Bool { return false }
+    public func textView(didChange text: String) {}
 }
 
 open class XKTextView: UITextView {
@@ -78,6 +80,12 @@ open class XKTextView: UITextView {
     open func setLinkTextAttributes(attributes: [NSAttributedString.Key : Any]) {
         linkTextAttributes = attributes
     }
+    /// if you want to type some, use this to replace .text
+    open func text(_ str: String) {
+        text = str
+        placeholderLabel.isHidden = hasText
+        xkDelegate?.textView(didChange: str)
+    }
     
 }
 
@@ -94,5 +102,6 @@ extension XKTextView: UITextViewDelegate {
     
     public func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = textView.hasText
+        xkDelegate?.textView(didChange: textView.text)
     }
 }
