@@ -51,6 +51,9 @@ open class XKTextView: UITextView {
     }
     
     func setupUI() {
+        contentInset = .zero
+        textContainerInset = .zero
+        textContainer.lineFragmentPadding = .zero
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
         placeholderLabel.numberOfLines = 0
         placeholderLabel.attributedText = attributedPlaceHolder
