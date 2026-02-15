@@ -40,20 +40,19 @@ open class XKTextView: UITextView {
         self.isEditable = isEditable
         if let font { self.font = font }
         if let textColor { self.textColor = textColor }
-        self.textContainerInset = textContainerInset
         self.textContainer.lineFragmentPadding = lineFragmentPadding
         self.backgroundColor = backgroundColor
         if let attributedText { self.attributedText = attributedText }
         self.attributedPlaceHolder = attributedPlaceHolder
         self.delegate = self
+        self.textContainerInset = textContainerInset
+        contentInset = .zero
+        textContainer.lineFragmentPadding = .zero
         xkDelegate = delegate
         setupUI()
     }
     
     func setupUI() {
-        contentInset = .zero
-        textContainerInset = .zero
-        textContainer.lineFragmentPadding = .zero
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
         placeholderLabel.numberOfLines = 0
         placeholderLabel.attributedText = attributedPlaceHolder
